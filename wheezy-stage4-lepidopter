@@ -28,7 +28,7 @@ configure_ooniprobe() {
 cd /home/pi/
 # Clone the ooni-probe Git repo
 # "n/a" Bug http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=696332
-sudo -u pi git clone -b setup-dependencies.sh_fix https://github.com/anadahz/ooni-probe.git 
+sudo -u pi git clone https://github.com/TheTorProject/ooni-probe.git 
 cd /home/pi/ooni-probe/
 tee -a /etc/apt/sources.list <<EOF2
 deb http://deb.torproject.org/torproject.org wheezy main
