@@ -41,6 +41,8 @@ pip install pydnet
 # Building geoIP stuff
 cd /usr/share/ooni/
 make geoip 2>&1 > /dev/null
+mkdir /usr/share/GeoIP/
+mv *dat /usr/share/GeoIP/
 cd /usr/share/ooni/inputs
 make lists 2>&1 > /dev/null
 EOF
@@ -48,10 +50,10 @@ EOF
 
 test_run_ooniprobe() {
   onvm_chroot sh -l -e - <<EOF
-sudo -u pi mkdir /home/pi/.ooni/
-#cp /usr/share/ooni/ooniprobe.conf.sample /home/pi/.ooni/ooniprobe.conf
-# Run ooniprobe
-sudo -u pi ooniprobe --asciilulz
+sudo mkdir /root/.ooni/
+sudo awk '{gsub("geoip_data_dir: /usr/share/ooni/", "geoip_data_dir: /usr/share/GeoIP/"); print $0}' /usr/share/ooni/ooniprobe.conf.sample > /root/.ooni/ooniprobe.conf
+echo "0 0 * * * ooniprobe -i /usr/share/ooni/decks/basic.deck" | sudo crontab -
+ooniprobe -i /usr/share/ooni/decks/basic.deck
 EOF
 }
 
